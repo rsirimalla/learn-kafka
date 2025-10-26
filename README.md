@@ -42,14 +42,14 @@ Producer → Topic (Partition 0, 1, 2...) → Consumer Group
 
 ### docker-compose.yml
 
-Create a `docker-compose.yml` file (updated for Kafka 4.1 with KRaft - **No ZooKeeper needed!**):
+Create a `docker-compose.yml` file (updated for Kafka 4.x with KRaft - **No ZooKeeper needed!**):
 
 ```yaml
 version: '3.8'
 
 services:
   kafka:
-    image: apache/kafka:3.9.0
+    image: confluentinc/cp-kafka:7.8.0
     container_name: kafka
     ports:
       - "9092:9092"
@@ -87,6 +87,7 @@ services:
 - ✅ Single Kafka container runs in **combined mode** (broker + controller)
 - ✅ Uses **KRaft** consensus protocol for metadata management
 - ✅ Simpler setup with fewer components
+- ✅ Using **Confluent's packaged image** for better command-line experience (Kafka binaries are in PATH)
 
 ### Start Kafka
 
@@ -100,13 +101,16 @@ docker ps
 # View Kafka UI at http://localhost:8080
 ```
 
+**Note on Docker Image:** We're using Confluent's packaged Kafka image (`confluentinc/cp-kafka`) instead of the raw Apache image. Both run the same Apache Kafka core, but Confluent's image has Kafka commands pre-configured in the PATH, making it much easier to use. This is purely for convenience - you're still learning standard Apache Kafka!
+
 ### Create a Test Topic
 
 ```bash
 # Enter the Kafka container
 docker exec -it kafka bash
 
-# Create a topic with 3 partitions (notice --bootstrap-server, not zookeeper!)
+# Create a topic with 3 partitions
+# Notice: commands work directly now (no need for full paths like /opt/kafka/bin/...)
 kafka-topics --create \
   --bootstrap-server localhost:9092 \
   --topic my-first-topic \
@@ -642,6 +646,11 @@ docker-compose down
 **Note:** All commands now use `--bootstrap-server` instead of the old `--zookeeper` parameter. This is a key change in Kafka 4.0+!
 
 ## Troubleshooting
+
+**"kafka-topics: command not found" error:**
+- If you see this error, you might be using the raw `apache/kafka` image instead of `confluentinc/cp-kafka`
+- Solution: Use the Confluent image as shown in the tutorial (it has better PATH configuration)
+- Alternative: Use full paths like `/opt/kafka/bin/kafka-topics.sh` if using Apache's image
 
 **Port already in use:**
 ```bash

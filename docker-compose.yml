@@ -2,12 +2,12 @@ version: '3.8'
 
 services:
   kafka:
-    image: apache/kafka:3.9.0
+    image: confluentinc/cp-kafka:7.8.0
     container_name: kafka
     ports:
       - "9092:9092"
     environment:
-      # KRaft mode configuration (No ZooKeeper!)
+      # KRaft mode configuration
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: 'broker,controller'
       KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:9093'
