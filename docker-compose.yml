@@ -7,7 +7,7 @@ services:
     ports:
       - "9092:9092"
     environment:
-      # KRaft mode configuration
+      # KRaft mode configuration (No ZooKeeper!)
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: 'broker,controller'
       KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:9093'
