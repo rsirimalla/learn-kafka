@@ -1,5 +1,5 @@
 # Kafka Quickstart Guide (2-3 Hours) - Updated for 2025
-# Commit check
+# Commit check 1001
 
 ## Overview
 This guide will help you learn Apache Kafka fundamentals with hands-on Docker setup and Java examples. Updated for **Apache Kafka 4.1** (latest as of October 2025), which runs entirely **without ZooKeeper** using the new **KRaft mode**.
